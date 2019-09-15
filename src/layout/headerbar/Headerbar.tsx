@@ -3,10 +3,7 @@ import { Layout, Icon } from 'antd'
 import Siderbar from '../siderbar/Siderbar'
 import history from '../../screens/history/History'
 import { Link, Route, Switch } from 'react-router-dom'
-interface IContextProps {
-  state: any
-  dispatch: ({ type }: { type: string }) => void
-}
+import { IContextProps } from '../../shared/context/Context'
 const { Header, Content } = Layout
 
 const reducer = (state: any, action: any) => {

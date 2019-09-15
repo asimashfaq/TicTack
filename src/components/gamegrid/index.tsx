@@ -1,28 +1,45 @@
-import * as React from 'react'
+import React, { useReducer, useEffect } from 'react'
 import { Layout, PageHeader, Row, Col, Card, Typography, Result, Button, Modal } from 'antd'
 import GameBox from './gamebox'
 import { Box, CheckWinner, Winner } from '../../tictac_bll'
 import './gamegrid.scss'
-
+import { State, GAME_INITIALS } from './props'
+import { sleep, gameReducer } from './functions/Functions'
 const { Text } = Typography
 let animateDelay = 1000
 interface Props {}
 
-interface State {
-  boxes: Box[]
-  player: number
-  step: number
-  letter: string
-  loading: boolean
-  successModalVisible: boolean
-  winnerPlayer: number
-  buttonDisable: boolean[]
-  replay: boolean
-  replyModalVisible: boolean
-  drawModelVisible: boolean
-}
-const sleep = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms))
+const TicTac = () => {
+  const [state, dispatch] = useReducer(gameReducer, GAME_INITIALS)
+  useEffect(() => {
+    console.log(state)
+  }, [state])
+  return (
+    <Layout>
+      <Button
+        onClick={() => {
+          dispatch({ type: 'reset' })
+        }}
+      >
+        Reset
+      </Button>
+      <Button
+        onClick={() => {
+          dispatch({
+            type: 'add',
+            payload: {
+              id: 1,
+              player: 1,
+              value: 1,
+              step: 1,
+            },
+          })
+        }}
+      >
+        Click
+      </Button>
+    </Layout>
+  )
 }
 
 class GameGrid extends React.Component<Props, State> {
@@ -188,6 +205,7 @@ class GameGrid extends React.Component<Props, State> {
   render() {
     return (
       <Layout className="gamegrid">
+        <TicTac />
         <Modal
           title=""
           footer={[]}

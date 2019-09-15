@@ -1,11 +1,14 @@
 import React, { useReducer } from 'react'
 import { Layout, Icon } from 'antd'
 
-import Headerbar from '../../layout/headerbar/Headerbar'
-
+import GameGrid from '../../components/gamegrid'
 const { Content } = Layout
 const Home = () => {
-  return <div>Home</div>
+  return (
+    <div>
+      <GameGrid />
+    </div>
+  )
 }
 
 export default Home
