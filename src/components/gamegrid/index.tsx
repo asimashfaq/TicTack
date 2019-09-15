@@ -19,6 +19,7 @@ interface State {
   buttonDisable: boolean[]
   replay: boolean
   replyModalVisible: boolean
+  drawModelVisible: boolean
 }
 const sleep = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -36,6 +37,7 @@ class GameGrid extends React.Component<Props, State> {
     buttonDisable: [false, false, false, false, false, false, false, false, false],
     replay: false,
     replyModalVisible: false,
+    drawModelVisible: false,
   }
   handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (this.state.replay) {
@@ -51,20 +53,46 @@ class GameGrid extends React.Component<Props, State> {
       step: this.state.step + 1,
     }
     const buttonIndex: number = parseInt(bx.id.slice(-1), 10)
-    const buttonDisable: boolean[] = this.state.buttonDisable
-    buttonDisable[buttonIndex] = true
+    const bDisable: boolean[] = this.state.buttonDisable
+    bDisable[buttonIndex] = true
     this.setState(
       {
         boxes: [...this.state.boxes, bx],
         step: this.state.step + 1,
         player: this.state.player === 1 ? 2 : 1,
         letter: this.state.letter === 'x' ? 'o' : 'x',
-        buttonDisable,
+        buttonDisable: bDisable,
       },
       () => {
-        if (this.state.step >= 5) {
+        if (this.state.step >= 5 && this.state.step < 9) {
           const result: Winner = CheckWinner(this.state.boxes)
           if (!result.draw) {
+            this.setState(
+              {
+                winnerPlayer: result.player,
+                player: 0,
+                letter: '-',
+              },
+              () => {
+                this.showModal()
+              }
+            )
+          }
+        } else if (this.state.step === 9) {
+          const result: Winner = CheckWinner(this.state.boxes)
+          console.log(result)
+          if (result.draw) {
+            this.setState(
+              {
+                winnerPlayer: 0,
+                player: 0,
+                letter: '-',
+              },
+              () => {
+                this.showDrawModal()
+              }
+            )
+          } else {
             this.setState(
               {
                 winnerPlayer: result.player,
@@ -91,6 +119,7 @@ class GameGrid extends React.Component<Props, State> {
       winnerPlayer: 0,
       buttonDisable: [false, false, false, false, false, false, false, false, false],
       replyModalVisible: false,
+      drawModelVisible: false,
     })
     // tslint:disable-next-line: no-increment-decrement
     for (let i: number = 0; i < 9; i++) {
@@ -105,6 +134,7 @@ class GameGrid extends React.Component<Props, State> {
       replyModalVisible: false,
       buttonDisable: [false, false, false, false, false, false, false, false, false],
       replay: true,
+      drawModelVisible: false,
     })
     // tslint:disable-next-line: no-increment-decrement
     for (let i: number = 0; i < 9; i++) {
@@ -145,6 +175,11 @@ class GameGrid extends React.Component<Props, State> {
   showModal = () => {
     this.setState({
       successModalVisible: true,
+    })
+  }
+  showDrawModal = () => {
+    this.setState({
+      drawModelVisible: true,
     })
   }
   handleCancel = () => {
@@ -193,7 +228,26 @@ class GameGrid extends React.Component<Props, State> {
             ]}
           />
         </Modal>
-
+        <Modal
+          title=""
+          footer={[]}
+          onCancel={this.handleCancel}
+          visible={this.state.drawModelVisible}
+        >
+          <Result
+            status="error"
+            title="Match Draw! "
+            subTitle={`No Player's Win!`}
+            extra={[
+              <Button type="primary" key="play_again" onClick={this.resetGame}>
+                Play Again
+              </Button>,
+              <Button type="primary" key="replay" onClick={this.replyGame}>
+                RePlay
+              </Button>,
+            ]}
+          />
+        </Modal>
         <PageHeader onBack={() => null} title="Welcome to the TicTac" subTitle="Do the Dew" />
         <Row>
           <GameBox
