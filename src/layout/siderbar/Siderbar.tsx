@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
-import { Layout, Menu, Icon } from 'antd'
-import { Redirect } from 'react-router-dom'
-import { Context } from '../../App'
+import { Layout, Menu, Icon, Typography } from 'antd'
+import { Link } from 'react-router-dom'
+import { Context } from '../headerbar/Headerbar'
 import './Siderbar.scss'
+const { Text } = Typography
 interface Props {
   collapse: boolean
   label: string
@@ -23,14 +24,25 @@ const Siderbar = (props: Props) => {
       collapsed={state.collapse}
     >
       <div className="logo">{state.label}</div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+      <Menu
+        className="menu-list"
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={['1']}
+        style={{ lineHeight: '64px' }}
+      >
         <Menu.Item key="1">
           <Icon type="user" />
-          <Redirect to="/">New Game</Redirect>
+
+          <Text type="secondary">
+            <Link to="/">Home</Link>
+          </Text>
         </Menu.Item>
         <Menu.Item key="2">
           <Icon type="video-camera" />
-          <Redirect to="/history">History</Redirect>
+          <Text type="secondary">
+            <Link to="/history">History</Link>
+          </Text>
         </Menu.Item>
       </Menu>
     </Sider>

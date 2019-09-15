@@ -1,9 +1,8 @@
 import React, { useReducer } from 'react'
 import { Layout, Icon } from 'antd'
-import Siderbar from './layout/siderbar/Siderbar'
-import './styles/sass/App.scss'
-import Routes from './configs/routes'
-import { BrowserRouter } from 'react-router-dom'
+import Siderbar from '../siderbar/Siderbar'
+import history from '../../screens/history/History'
+import { Link, Route, Switch } from 'react-router-dom'
 interface IContextProps {
   state: any
   dispatch: ({ type }: { type: string }) => void
@@ -23,7 +22,10 @@ const reducer = (state: any, action: any) => {
 }
 
 const Context = React.createContext({} as IContextProps)
-const App = () => {
+interface Props {
+  routes: JSX.Element[]
+}
+const Headerbar = (props: Props) => {
   const [state, dispatch] = useReducer(reducer, {
     label: 'TicTac',
     collapse: false,
@@ -33,7 +35,6 @@ const App = () => {
       <Context.Provider value={{ state, dispatch }}>
         <Siderbar collapse={state.collapse} label={state.label} />
       </Context.Provider>
-
       <Layout>
         <Header style={{ background: '#fff', padding: 0 }}>
           <Icon
@@ -51,11 +52,13 @@ const App = () => {
             background: '#fff',
             minHeight: 280,
           }}
-        />
+        >
+          <Switch>{props.routes}</Switch>
+        </Content>
       </Layout>
     </Layout>
   )
 }
 
 export { Context }
-export default App
+export default Headerbar
