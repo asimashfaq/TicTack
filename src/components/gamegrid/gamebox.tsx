@@ -2,16 +2,16 @@ import React from 'react'
 import { Col, Button } from 'antd'
 interface Props {
   id: string
-  buttonVisible: boolean
-  clickHandler(event: React.MouseEvent<HTMLButtonElement>): void
+  buttondisable: boolean
+  callback(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void
 }
-const GameBox: React.FC<Props> = props => {
+const GameBox = React.memo((props: Props) => {
   return (
     <Col span={1} xl={8}>
-      <Button id={props.id} onClick={props.clickHandler} disabled={props.buttonVisible}>
+      <Button id={props.id} onClick={props.callback} disabled={props.buttondisable}>
         -
       </Button>
     </Col>
   )
-}
+})
 export default GameBox
