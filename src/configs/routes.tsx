@@ -1,6 +1,5 @@
 import React from 'react'
-import { Layout, Icon } from 'antd'
-import { Switch, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { Provider } from 'react-redux'
 import AsyncComponent from './AsyncComponent'

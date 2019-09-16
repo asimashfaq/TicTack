@@ -27,3 +27,4 @@ const GameModal = (state: Props) => {
     </Modal>
   )
 }
+export default GameModal

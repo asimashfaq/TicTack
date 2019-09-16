@@ -1,7 +1,4 @@
-import React, { useReducer } from 'react'
-import { Layout, Icon } from 'antd'
-
-const { Content } = Layout
+import React from 'react'
 const History = () => {
   return <div>asdasdas</div>
 }

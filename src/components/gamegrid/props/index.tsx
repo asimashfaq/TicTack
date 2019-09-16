@@ -1,12 +1,15 @@
+import { InitalizeGame } from '../functions/Functions'
 export interface Box {
   id: string
   player: number
   value: string
   step: number
 }
-export interface State {
+export interface Game {
   boxes: Box[]
   player: number
+  player1: string
+  player2: string
   step: number
   letter: string
   loading: boolean
@@ -15,22 +18,10 @@ export interface State {
   buttonDisable: boolean[]
   replay: boolean
   replyModalVisible: boolean
-  drawModelVisible: boolean
+  drawModalVisible: boolean
 }
 
-export const GAME_INITIALS: State = {
-  boxes: [],
-  player: (new Date().getTime() + Math.random()) % 2 > 1.4 ? 1 : 2,
-  letter: ((new Date().getTime() + Math.random()) % 2 < 1.4 ? 1 : 2) === 1 ? 'x' : 'o',
-  step: 0,
-  loading: false,
-  successModalVisible: false,
-  winnerPlayer: 0,
-  buttonDisable: [false, false, false, false, false, false, false, false, false],
-  replay: false,
-  replyModalVisible: false,
-  drawModelVisible: false,
-}
+export const GAME_INITIALS: Game = InitalizeGame()
 export interface Winner {
   player: number
   draw: boolean
