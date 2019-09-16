@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useCallback } from 'react'
+import React, { useReducer, useEffect, useCallback, useLayoutEffect } from 'react'
 import { Layout, Row, Col, Card, Typography } from 'antd'
 import GameBox from './gamebox'
 import './gamegrid.scss'
@@ -9,11 +9,12 @@ import { Prompt } from 'react-router'
 
 const { Text } = Typography
 let animateDelay = 1000
+let firstload = true
 interface Props {}
 const shouldBlockNavigation = true
 const GameGrid = () => {
   const [state, dispatch] = useReducer(gameReducer, GAME_INITIALS)
-  const animator = useCallback(() => {
+  const animateGame = useCallback(() => {
     return new Promise(res => {
       state.boxes.forEach(async (box: Box, index: number) => {
         animateDelay = animateDelay + 1000
@@ -53,13 +54,13 @@ const GameGrid = () => {
     return () => {
       // alert('Ad')
     }
-  }, [state])
+  }, [state.boxes, state.replay, state.drawModalVisible, state.winnerPlayer, state.step])
 
   useEffect(() => {
     if (state.replay) {
       restUI()
       animateDelay = 1000
-      animator().then(() => {
+      animateGame().then(() => {
         sleep(1000).then(() => {
           dispatch({ type: 'replay_end' })
         })
@@ -67,8 +68,15 @@ const GameGrid = () => {
       // start animation
     }
     return
-  }, [state.replay, animator])
-
+  }, [state.replay, animateGame])
+  useLayoutEffect(() => {
+    if (!firstload) {
+      dispatch({ type: 'reset', payload: InitalizeGame() })
+      restUI()
+      return
+    }
+    firstload = false
+  }, [])
   const restUI = () => {
     // tslint:disable-next-line: no-increment-decrement
     for (let i: number = 0; i < 9; i++) {
