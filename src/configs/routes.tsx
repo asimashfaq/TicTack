@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import AsyncComponent from './AsyncComponent'
 import store, { history } from '../redux/store'
 import Headerbar from '../layout/headerbar/Headerbar'
-// import History from '../screens/history/History'
 
 const Home = AsyncComponent(() => import('../screens/home/Home'))
 const HisotryComp = AsyncComponent(() => import('../screens/history/History'))

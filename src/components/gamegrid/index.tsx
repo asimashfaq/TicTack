@@ -5,13 +5,11 @@ import './gamegrid.scss'
 import { Box, GAME_INITIALS, Winner } from './props'
 import { sleep, gameReducer, CheckWinner, InitalizeGame } from './functions/Functions'
 import GameModal from '../../layout/gamemodal/GameModal'
-import { Prompt } from 'react-router'
 
 const { Text } = Typography
 let animateDelay = 1000
 let firstload = true
 interface Props {}
-const shouldBlockNavigation = true
 const GameGrid = () => {
   const [state, dispatch] = useReducer(gameReducer, GAME_INITIALS)
   const animateGame = useCallback(() => {
@@ -115,7 +113,6 @@ const GameGrid = () => {
   }
   return (
     <Layout className="gamegrid">
-      <Prompt when={shouldBlockNavigation} message="Your Game will be end?" />
       <Row>{items}</Row>
       <Layout style={{ background: '#ECECEC', padding: '30px' }} />
       <Row>

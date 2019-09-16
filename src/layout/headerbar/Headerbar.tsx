@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { Layout, Icon } from 'antd'
-import Siderbar from '../siderbar/Siderbar'
+import Siderbar from '../sidebar/Sidebar'
 import { Switch } from 'react-router-dom'
 import { IContextProps } from '../../shared/context/Context'
 const { Header, Content } = Layout
