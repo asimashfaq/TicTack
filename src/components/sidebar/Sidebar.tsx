@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { Layout, Menu, Icon, Typography } from 'antd'
 import { Link } from 'react-router-dom'
-import { Context } from '../headerbar/Headerbar'
-import './Siderbar.scss'
+import { Context } from '../../pages/main'
+import './Sidebar.scss'
 const { Text } = Typography
 interface Props {
   collapse: boolean

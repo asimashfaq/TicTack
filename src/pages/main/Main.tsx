@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import { Layout, Icon } from 'antd'
-import Siderbar from '../sidebar/Sidebar'
+import Siderbar from '../../components/sidebar/Sidebar'
 import { Switch } from 'react-router-dom'
 import { IContextProps } from '../../shared/context/Context'
 const { Header, Content } = Layout
@@ -21,7 +21,7 @@ const Context = React.createContext({} as IContextProps)
 interface Props {
   routes: JSX.Element[]
 }
-const Headerbar = (props: Props) => {
+const Main = (props: Props) => {
   const [state, dispatch] = useReducer(reducer, {
     label: 'TicTac',
     collapse: false,
@@ -55,6 +55,4 @@ const Headerbar = (props: Props) => {
     </Layout>
   )
 }
-
-export { Context }
-export default Headerbar
+export { Context, Main }

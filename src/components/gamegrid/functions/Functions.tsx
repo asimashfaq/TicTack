@@ -1,4 +1,4 @@
-import { Box, Game, ICheckWinner, Winner, SuccessPattrens } from '../props'
+import { SuccessPattrens } from '../props'
 
 export const sleep = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms))

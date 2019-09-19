@@ -1,10 +1,12 @@
 import React, { useReducer, useEffect, useCallback, useLayoutEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Layout, Row, Col, Card, Typography } from 'antd'
 import GameBox from './gamebox'
 import './gamegrid.scss'
-import { Box, GAME_INITIALS, Winner } from './props'
+import { GAME_INITIALS } from './props'
 import { sleep, gameReducer, CheckWinner, InitalizeGame } from './functions/Functions'
-import GameModal from '../../layout/gamemodal/GameModal'
+import GameModal from '../gamemodal/GameModal'
+import { addGamePlay } from '../../redux/reducers/gamePlays/api'
 
 const { Text } = Typography
 let animateDelay = 1000
@@ -12,6 +14,10 @@ let firstload = true
 interface Props {}
 const GameGrid = () => {
   const [state, dispatch] = useReducer(gameReducer, GAME_INITIALS)
+  // store dispatcher and state
+  const sState = useSelector((state: any) => state.gameplayadd)
+  const sdispatch = useDispatch()
+
   const animateGame = useCallback(() => {
     return new Promise(res => {
       state.boxes.forEach(async (box: Box, index: number) => {
@@ -40,18 +46,19 @@ const GameGrid = () => {
       const result: Winner = CheckWinner(state.boxes)
       if (!result.draw && state.winnerPlayer === 0) {
         dispatch({ type: 'winner', payload: result.player })
+        saveGamePlay(false, result.player.toString())
       }
     } else if (state.step === 9) {
       const result: Winner = CheckWinner(state.boxes)
       if (!result.draw && state.winnerPlayer === 0) {
         dispatch({ type: 'winner', payload: result.player })
+        saveGamePlay(false, result.player.toString())
       } else {
         dispatch({ type: 'draw' })
+        saveGamePlay(true, '0')
       }
     }
-    return () => {
-      // alert('Ad')
-    }
+    return () => {}
   }, [state.boxes, state.replay, state.drawModalVisible, state.winnerPlayer, state.step])
 
   useEffect(() => {
@@ -82,7 +89,17 @@ const GameGrid = () => {
       element.innerHTML = `<span>-</span>`
     }
   }
-
+  const saveGamePlay = (draw: boolean, player: string) => {
+    sdispatch(
+      addGamePlay({
+        winner: player,
+        player1: state.player1,
+        player2: state.player2,
+        draw,
+        boxes: state.boxes,
+      })
+    )
+  }
   const btnCallBack = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       const id: string = event.currentTarget.id

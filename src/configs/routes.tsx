@@ -1,24 +1,14 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
-import { Provider } from 'react-redux'
-import AsyncComponent from './AsyncComponent'
-import store, { history } from '../redux/store'
-import Headerbar from '../layout/headerbar/Headerbar'
+import AsyncImport from './AsyncImport'
 
-const Home = AsyncComponent(() => import('../screens/home/Home'))
-const HisotryComp = AsyncComponent(() => import('../screens/history/History'))
+const Home = AsyncImport(() => import('../pages/home'))
+const History = AsyncImport(() => import('../pages/gamePlays'))
 const publicPaths = [
   { exact: true, path: '/', component: Home },
-  { exact: true, path: '/history', component: HisotryComp },
+  { exact: true, path: '/history', component: History },
 ]
 const publicRoutes = publicPaths.map(({ path, ...props }) => (
   <Route key={path} path={path} {...props} />
 ))
-export default () => (
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Headerbar routes={publicRoutes} />
-    </ConnectedRouter>
-  </Provider>
-)
+export default publicRoutes
